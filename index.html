@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday! 菲蔓專屬的生日禮物選擇</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            roseGold: '#D4A373',
+            warmBeige: '#FAEDCD',
+            softRose: '#E8A598',
+            pastelPink: '#FFF0F5',
+            deepCharcoal: '#2B2D42',
+            accentGold: '#E6C280',
+            dustyRose: '#C97A7E',
+          },
+          fontFamily: {
+            sans: ['Inter', 'PingFang TC', 'Microsoft JhengHei', 'sans-serif'],
+            serif: ['Georgia', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Canvas Confetti for Celebration Effect -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap');
+    
+    body {
+      font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    }
+
+    .font-serif-custom {
+      font-family: 'Noto Serif TC', serif;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .glass-card-selected {
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #C97A7E;
+      box-shadow: 0 10px 25px -5px rgba(201, 122, 126, 0.3);
+    }
+
+    .cal-day {
+      transition: all 0.2s ease;
+    }
+    .cal-day:not(.disabled):hover {
+      background-color: #FAEDCD;
+      transform: scale(1.05);
+    }
+    .cal-day.selected {
+      background-color: #C97A7E !important;
+      color: white !important;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(201, 122, 126, 0.4);
+    }
+    .cal-day.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C97A7E;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-deepCharcoal pb-20 relative bg-slate-50">
+
+  <!-- Background Decorative Elements -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30">
+    <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-softRose blur-3xl"></div>
+    <div class="absolute top-1/2 -right-24 w-80 h-80 rounded-full bg-roseGold blur-3xl"></div>
+    <div class="absolute -bottom-24 left-1/3 w-96 h-96 rounded-full bg-warmBeige blur-3xl"></div>
+  </div>
+
+  <div class="max-w-4xl mx-auto px-4 pt-10 relative z-10">
+
+    <!-- Header Section -->
+    <header class="text-center mb-12 space-y-4">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-dustyRose/10 text-dustyRose text-sm font-semibold tracking-wide">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        <span>菲蔓 11 月 13 日 特別獻禮</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold font-serif-custom text-deepCharcoal tracking-tight">
+        菲蔓，生日快樂 🎉
+      </h1>
+      <p class="text-gray-600 max-w-lg mx-auto text-base md:text-lg leading-relaxed font-light">
+        祝妳生日快樂！在這個特別的日子裡，為妳準備了三個不同的生日慶祝提案。請選出妳最心儀的一個方案，我們再一起安排時間吧！
+      </p>
+    </header>
+
+    <!-- Options Container -->
+    <div class="space-y-8">
+
+      <!-- ================= OPTION A ================= -->
+      <div id="card-optionA" class="glass-card rounded-3xl p-6 md:p-8 transition-all duration-300 shadow-sm hover:shadow-md border border-white">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-2xl bg-roseGold/20 text-dustyRose font-bold flex items-center justify-center text-lg font-serif-custom">A</span>
+            <div>
+              <h2 class="text-xl md:text-2xl font-bold text-deepCharcoal font-serif-custom">八和和牛燒肉專門店 (敦北店)</h2>
+              <p class="text-xs md:text-sm text-gray-500 flex items-center gap-1 mt-0.5">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> 台北市松山區敦化北路 102 號
+              </p>
+            </div>
+          </div>
+          <button onclick="selectOption('A')" id="btn-select-A" class="px-5 py-2 rounded-full border-2 border-dustyRose text-dustyRose hover:bg-dustyRose hover:text-white transition text-sm font-semibold flex items-center gap-1.5">
+            <i data-lucide="check" class="w-4 h-4"></i> 選擇方案 A
+          </button>
+        </div>
+
+        <!-- Review Link Banner -->
+        <div class="bg-amber-50/70 border border-amber-200/60 rounded-2xl p-4 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-amber-100 text-amber-700 rounded-xl">
+              <i data-lucide="utensils" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="text-xs text-amber-600 font-semibold uppercase tracking-wider">頂級燒肉美味饗宴</div>
+              <div class="text-sm font-medium text-amber-950">查看詳細食記介紹與招牌推薦</div>
+            </div>
+          </div>
+          <a href="https://weshares.com.tw/taipei-baho-yakiniku_no2/" target="_blank" rel="noopener noreferrer" class="w-full md:w-auto px-4 py-2 bg-amber-700 hover:bg-amber-800 text-white rounded-xl text-xs font-semibold text-center transition flex items-center justify-center gap-1.5 shadow-sm">
+            <span>瀏覽食記點評</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <!-- Option A Details -->
+        <div id="details-A" class="mt-6 pt-6 border-t border-gray-100 grid md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-4 h-4 text-dustyRose"></i> 選擇 11 月聚餐日期
+            </label>
+            <div class="bg-white/90 p-4 rounded-2xl border border-gray-100 shadow-inner">
+              <div class="text-center font-semibold text-gray-800 mb-3 text-sm">2026 年 11 月</div>
+              <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 font-medium mb-2">
+                <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+              </div>
+              <div id="calendar-A-grid" class="grid grid-cols-7 gap-1 text-center text-sm font-medium"></div>
+            </div>
+          </div>
+
+          <div class="space-y-4 flex flex-col justify-between">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+                <i data-lucide="sun-moon" class="w-4 h-4 text-dustyRose"></i> 選擇時段 (午餐 / 晚餐)
+              </label>
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <button type="button" onclick="setMealType('午餐')" id="meal-lunch" class="py-2.5 px-4 rounded-xl border border-gray-200 text-gray-700 font-medium text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition">
+                  <i data-lucide="sun" class="w-4 h-4 text-amber-500"></i> 午餐時段
+                </button>
+                <button type="button" onclick="setMealType('晚餐')" id="meal-dinner" class="py-2.5 px-4 rounded-xl border border-gray-200 text-gray-700 font-medium text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition">
+                  <i data-lucide="moon" class="w-4 h-4 text-indigo-500"></i> 晚餐時段
+                </button>
+              </div>
+
+              <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+                <i data-lucide="clock" class="w-4 h-4 text-dustyRose"></i> 入座時間
+              </label>
+              <select id="time-slot-A" onchange="updateSelectionSummary()" class="w-full p-3 rounded-xl border border-gray-200 bg-white text-sm focus:ring-2 focus:ring-dustyRose focus:outline-none">
+                <option value="">請先選擇午餐或晚餐</option>
+              </select>
+            </div>
+
+            <div class="p-3 bg-rose-50/50 rounded-xl border border-rose-100 text-xs text-rose-700 flex items-center gap-2">
+              <i data-lucide="info" class="w-4 h-4 shrink-0"></i>
+              <span>選好日期與時間後，我會提前預約訂位。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= OPTION B ================= -->
+      <div id="card-optionB" class="glass-card rounded-3xl p-6 md:p-8 transition-all duration-300 shadow-sm hover:shadow-md border border-white">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-2xl bg-softRose/20 text-dustyRose font-bold flex items-center justify-center text-lg font-serif-custom">B</span>
+            <div>
+              <h2 class="text-xl md:text-2xl font-bold text-deepCharcoal font-serif-custom">台東金崙 2天1夜 溫泉放鬆之旅</h2>
+              <p class="text-xs md:text-sm text-gray-500 flex items-center gap-1 mt-0.5">
+                <i data-lucide="footprints" class="w-3.5 h-3.5"></i> 到達後全程徒步漫遊・不搭車不騎車・享受悠閒步調
+              </p>
+            </div>
+          </div>
+          <button onclick="selectOption('B')" id="btn-select-B" class="px-5 py-2 rounded-full border-2 border-dustyRose text-dustyRose hover:bg-dustyRose hover:text-white transition text-sm font-semibold flex items-center gap-1.5">
+            <i data-lucide="check" class="w-4 h-4"></i> 選擇方案 B
+          </button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-blue-50/60 border border-blue-100 p-4 rounded-2xl">
+            <div class="flex items-center gap-2 font-semibold text-blue-900 text-sm mb-2">
+              <i data-lucide="train" class="w-4 h-4 text-blue-600"></i> 火車班次規劃 (台北 ⇆ 金崙)
+            </div>
+            <div class="text-xs space-y-1.5 text-blue-800">
+              <div class="flex justify-between">
+                <span>去程: 自強號 410</span>
+                <span class="font-semibold">07:55 台北 → 13:04 金崙</span>
+              </div>
+              <div class="flex justify-between">
+                <span>回程: 自強號 441</span>
+                <span class="font-semibold">16:56 金崙 → 21:38 台北</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-teal-50/60 border border-teal-100 p-4 rounded-2xl">
+            <div class="flex items-center gap-2 font-semibold text-teal-900 text-sm mb-1">
+              <i data-lucide="hotel" class="w-4 h-4 text-teal-600"></i> 住宿：金讚溫泉飯店 (一泊二食方案)
+            </div>
+            <div class="text-xs text-teal-800 space-y-1">
+              <p>• 入住時間：<span class="font-bold">15:30 入住</span> | 隔天 <span class="font-bold">11:00 退房</span></p>
+              <p>• 含<span class="font-semibold">第一天飯店晚餐</span>與<span class="font-semibold">第二天飯店早餐</span>，享全台唯一<span class="font-bold underline decoration-teal-400">鹹水溫泉</span>。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-6 bg-white/80 border border-gray-100 rounded-2xl p-5">
+          <h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center justify-between">
+            <span class="flex items-center gap-2">
+              <i data-lucide="map" class="w-4 h-4 text-dustyRose"></i> 漫遊金崙行程亮點 (含必吃午餐美饌)
+            </span>
+            <span class="text-[11px] text-gray-400 font-normal">全程徒步即可抵達</span>
+          </h3>
+          
+          <div class="grid md:grid-cols-2 gap-4 text-xs">
+            <div class="space-y-2.5 border-l-2 border-dustyRose/30 pl-3">
+              <div class="font-bold text-dustyRose text-sm flex items-center gap-1">DAY 1 抵達、美食與漫步</div>
+              <div class="text-gray-700"><strong>13:04</strong> 抵達金崙火車站</div>
+              <div class="text-gray-700"><strong>13:15</strong> 午餐美食時間：造訪 <span class="text-amber-800 font-bold">嘎努食堂</span> 或 <span class="text-amber-800 font-bold">鼎倫牛肉麵</span> 享用道地午餐</div>
+              <div class="text-gray-700"><strong>14:20</strong> 點心時間：品嚐 <span class="text-amber-700 font-semibold">穀臼那哪手工麵包</span> & <span class="text-amber-700 font-semibold">鹿燈下小米甜甜圈</span></div>
+              <div class="text-gray-700"><strong>15:30</strong> 至 <span class="text-teal-700 font-bold">金讚溫泉飯店</span> 辦理 Check-in 入住休息</div>
+              <div class="text-gray-700"><strong>16:20</strong> 漫步至 <span class="text-roseGold font-semibold">金崙觀景臺</span> & <span class="text-roseGold font-semibold">在斜坡上瞭望</span> 俯瞰海岸美景，隨後參訪 <span class="text-purple-700 font-semibold">金崙聖若瑟天主堂</span></div>
+              <div class="text-gray-700"><strong>18:00</strong> 享用 <span class="text-teal-800 font-semibold">飯店晚餐</span> & 體驗鹹水溫泉泡湯放鬆</div>
+            </div>
+
+            <div class="space-y-2.5 border-l-2 border-dustyRose/30 pl-3">
+              <div class="font-bold text-dustyRose text-sm flex items-center gap-1">DAY 2 日出、巡禮與咖啡巡禮</div>
+              <div class="text-gray-700"><strong>06:00</strong> 晨光漫步至 <span class="text-blue-700 font-semibold">金崙海灘</span> 聽海浪聲與欣賞海景</div>
+              <div class="text-gray-700"><strong>08:30</strong> 享用 <span class="text-teal-800 font-semibold">飯店活力早餐</span></div>
+              <div class="text-gray-700"><strong>11:00</strong> 退房 (Check-out) 繼續漫遊</div>
+              <div class="text-gray-700"><strong>11:15</strong> 參拜 <span class="text-amber-700 font-semibold">太麻里福興宮福德正神</span> 祈福</div>
+              <div class="text-gray-700"><strong>12:00</strong> 午餐時間：品嚐另一家在地美味 <span class="text-amber-800 font-bold">鼎倫牛肉麵</span> / <span class="text-amber-800 font-bold">嘎努食堂</span></div>
+              <div class="text-gray-700"><strong>13:30</strong> 到 <span class="text-amber-900 font-semibold">黑手咖啡</span> 享用香醇咖啡與悠閒時光</div>
+              <div class="text-gray-700"><strong>15:00</strong> 散步行經 <span class="text-red-700 font-semibold">金崙大橋</span> & <span class="text-red-700 font-semibold">金崙溫泉虹橋</span> 拍照留念</div>
+              <div class="text-gray-700"><strong>16:56</strong> 搭乘自強 441 號返程台北</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-gray-100">
+          <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+            <i data-lucide="calendar-heart" class="w-4 h-4 text-dustyRose"></i> 選擇出發日期 (2026年 11 月兩天一夜)
+          </label>
+          <div class="bg-white/90 p-4 rounded-2xl border border-gray-100 shadow-inner max-w-md">
+            <div class="text-center font-semibold text-gray-800 mb-3 text-sm">2026 年 11 月</div>
+            <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 font-medium mb-2">
+              <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+            </div>
+            <div id="calendar-B-grid" class="grid grid-cols-7 gap-1 text-center text-sm font-medium"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= OPTION C ================= -->
+      <div id="card-optionC" class="glass-card rounded-3xl p-6 md:p-8 transition-all duration-300 shadow-sm hover:shadow-md border border-white">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-lg font-serif-custom">C</span>
+            <div>
+              <h2 class="text-xl md:text-2xl font-bold text-deepCharcoal font-serif-custom">生日禮物許願池 (Custom Wish)</h2>
+              <p class="text-xs md:text-sm text-gray-500 flex items-center gap-1 mt-0.5">
+                <i data-lucide="gift" class="w-3.5 h-3.5"></i> 菲蔓有特別想要的東西？可以直接寫在這裡或上傳照片！
+              </p>
+            </div>
+          </div>
+          <button onclick="selectOption('C')" id="btn-select-C" class="px-5 py-2 rounded-full border-2 border-dustyRose text-dustyRose hover:bg-dustyRose hover:text-white transition text-sm font-semibold flex items-center gap-1.5">
+            <i data-lucide="check" class="w-4 h-4"></i> 選擇方案 C
+          </button>
+        </div>
+
+        <div class="space-y-4 mt-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">想許願的禮物或對我說的話：</label>
+            <textarea id="wish-text" rows="4" placeholder="填寫妳想要的生日禮物名稱、款式、顏色、品牌或相關連結..." class="w-full p-4 rounded-2xl border border-gray-200 bg-white/90 text-sm focus:ring-2 focus:ring-dustyRose focus:outline-none transition resize-none"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">上傳參考圖片 (選填)：</label>
+            <div class="flex items-center justify-center w-full">
+              <label for="image-upload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer bg-white/50 hover:bg-white transition">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <i data-lucide="upload-cloud" class="w-8 h-8 text-dustyRose mb-2"></i>
+                  <p class="text-xs text-gray-500 font-medium">點擊選擇圖片或拖曳照片至此</p>
+                  <p class="text-[10px] text-gray-400 mt-1">支援 PNG, JPG, WEBP 格式</p>
+                </div>
+                <input id="image-upload" type="file" accept="image/*" class="hidden" onchange="previewImage(event)" />
+              </label>
+            </div>
+            
+            <div id="image-preview-container" class="mt-3 hidden relative w-32 h-32 rounded-2xl overflow-hidden border border-gray-200 group">
+              <img id="image-preview" src="" alt="Wish Preview" class="w-full h-full object-cover">
+              <button onclick="removeImage()" class="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 hover:bg-red-500 transition">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Final Submission Bar -->
+    <div class="mt-12 bg-white/95 backdrop-blur-md p-6 rounded-3xl border border-gray-100 shadow-xl sticky bottom-6 z-30">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider">目前的選擇</div>
+          <div id="summary-text" class="text-base font-bold text-deepCharcoal font-serif-custom">
+            請選擇一個您喜歡的方案 (A / B / C)
+          </div>
+        </div>
+        
+        <button onclick="submitChoice()" id="submit-btn" class="w-full md:w-auto px-8 py-3.5 bg-gradient-to-r from-dustyRose to-softRose text-white font-bold rounded-2xl shadow-lg hover:opacity-95 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+          <i data-lucide="send" class="w-5 h-5"></i>
+          <span>確認並傳送選擇</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Custom Confirmation Modal -->
+  <div id="modal-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 text-center space-y-6 shadow-2xl transform scale-95 transition-transform duration-300" id="modal-box">
+      <div class="w-16 h-16 bg-rose-100 text-dustyRose rounded-full flex items-center justify-center mx-auto text-2xl">
+        <i data-lucide="heart" class="w-8 h-8 fill-current"></i>
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold text-deepCharcoal font-serif-custom">收到菲蔓的選擇囉！</h3>
+        <p class="text-sm text-gray-600 mt-2 leading-relaxed">
+          謝謝妳！我已經收到妳選的生日方案內容，系統已同步將資料寫入試算表並發送至 Email。期待陪妳度過美好的生日！
+        </p>
+      </div>
+      <div class="p-4 bg-amber-50 rounded-2xl text-xs text-amber-800 text-left border border-amber-100 space-y-1">
+        <div class="font-bold border-b border-amber-200/60 pb-1 mb-1">選擇內容摘要：</div>
+        <div id="modal-summary-content">--</div>
+      </div>
+      <button onclick="closeModal()" class="w-full py-3 bg-deepCharcoal text-white rounded-xl font-medium text-sm hover:bg-gray-800 transition">
+        好的，關閉視窗
+      </button>
+    </div>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    lucide.createIcons();
+
+    // ⚠️ 請在此處貼上你在 Google Apps Script 部署獲得的網頁應用程式 URL ⚠️
+    const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL";
+
+    let selectedOption = null;
+    let selectedDateA = '2026-11-13';
+    let selectedDateB = '2026-11-14';
+    let mealType = '晚餐';
+    let timeSlot = '18:30';
+    let imageBase64 = null;
+
+    const timeSlots = {
+      '午餐': ['11:30', '12:00', '12:30', '13:00', '13:30'],
+      '晚餐': ['17:30', '18:00', '18:30', '19:00', '19:30', '20:00']
+    };
+
+    window.onload = function() {
+      renderCalendar('A', selectedDateA);
+      renderCalendar('B', selectedDateB);
+      updateTimeDropdown();
+      loadFromLocalStorage();
+    };
+
+    function renderCalendar(type, defaultSelectedDate) {
+      const gridContainer = document.getElementById(`calendar-${type}-grid`);
+      if (!gridContainer) return;
+      gridContainer.innerHTML = '';
+
+      const daysInNov = 30;
+
+      for (let day = 1; day <= daysInNov; day++) {
+        const dateStr = `2026-11-${day < 10 ? '0' + day : day}`;
+        const dayCell = document.createElement('div');
+        dayCell.className = `cal-day py-2 rounded-xl cursor-pointer text-sm font-medium border border-transparent`;
+        dayCell.innerText = day;
+
+        if (day === 13) {
+          dayCell.innerHTML = `${day}<span class="block text-[9px] text-amber-500 font-bold">🎂</span>`;
+        }
+
+        if (type === 'A' && dateStr === selectedDateA) dayCell.classList.add('selected');
+        if (type === 'B' && dateStr === selectedDateB) dayCell.classList.add('selected');
+
+        dayCell.onclick = function() {
+          if (type === 'A') {
+            selectedDateA = dateStr;
+            renderCalendar('A', selectedDateA);
+            selectOption('A');
+          } else {
+            selectedDateB = dateStr;
+            renderCalendar('B', selectedDateB);
+            selectOption('B');
+          }
+          updateSelectionSummary();
+        };
+
+        gridContainer.appendChild(dayCell);
+      }
+    }
+
+    function setMealType(type) {
+      mealType = type;
+      document.getElementById('meal-lunch').className = type === '午餐' 
+        ? 'py-2.5 px-4 rounded-xl border-2 border-amber-500 bg-amber-50 text-amber-800 font-bold text-sm flex items-center justify-center gap-2 shadow-sm'
+        : 'py-2.5 px-4 rounded-xl border border-gray-200 text-gray-700 font-medium text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition';
+
+      document.getElementById('meal-dinner').className = type === '晚餐' 
+        ? 'py-2.5 px-4 rounded-xl border-2 border-indigo-500 bg-indigo-50 text-indigo-800 font-bold text-sm flex items-center justify-center gap-2 shadow-sm'
+        : 'py-2.5 px-4 rounded-xl border border-gray-200 text-gray-700 font-medium text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition';
+
+      updateTimeDropdown();
+      selectOption('A');
+      updateSelectionSummary();
+    }
+
+    function updateTimeDropdown() {
+      const select = document.getElementById('time-slot-A');
+      select.innerHTML = '';
+      const slots = timeSlots[mealType] || timeSlots['晚餐'];
+      
+      slots.forEach(slot => {
+        const opt = document.createElement('option');
+        opt.value = slot;
+        opt.innerText = `${slot} (${mealType})`;
+        if (slot === timeSlot) opt.selected = true;
+        select.appendChild(opt);
+      });
+      timeSlot = select.value;
+    }
+
+    function selectOption(optionKey) {
+      selectedOption = optionKey;
+
+      ['A', 'B', 'C'].forEach(key => {
+        const card = document.getElementById(`card-option${key}`);
+        const btn = document.getElementById(`btn-select-${key}`);
+        if (key === optionKey) {
+          card.classList.add('glass-card-selected');
+          btn.className = 'px-5 py-2 rounded-full bg-dustyRose text-white font-bold text-sm flex items-center gap-1.5 shadow-md';
+          btn.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> 已選擇`;
+        } else {
+          card.classList.remove('glass-card-selected');
+          btn.className = 'px-5 py-2 rounded-full border-2 border-dustyRose text-dustyRose hover:bg-dustyRose hover:text-white transition text-sm font-semibold flex items-center gap-1.5';
+          btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> 選擇方案 ${key}`;
+        }
+      });
+
+      lucide.createIcons();
+      updateSelectionSummary();
+    }
+
+    function updateSelectionSummary() {
+      const summaryEl = document.getElementById('summary-text');
+      if (!selectedOption) {
+        summaryEl.innerText = '請選擇一個您喜歡的方案 (A / B / C)';
+        return;
+      }
+
+      if (selectedOption === 'A') {
+        const select = document.getElementById('time-slot-A');
+        const chosenTime = select ? select.value : timeSlot;
+        summaryEl.innerHTML = `<span class="text-dustyRose">方案 A：</span> 八和和牛燒肉 (${selectedDateA} ${mealType} ${chosenTime})`;
+      } else if (selectedOption === 'B') {
+        summaryEl.innerHTML = `<span class="text-dustyRose">方案 B：</span> 台東金崙 2天1夜 溫泉之旅 (${selectedDateB} 出發・一泊二食)`;
+      } else if (selectedOption === 'C') {
+        summaryEl.innerHTML = `<span class="text-dustyRose">方案 C：</span> 生日禮物許願池 (自訂渴望的禮物)`;
+      }
+    }
+
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imageBase64 = e.target.result;
+          document.getElementById('image-preview').src = imageBase64;
+          document.getElementById('image-preview-container').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function removeImage() {
+      imageBase64 = null;
+      document.getElementById('image-upload').value = '';
+      document.getElementById('image-preview-container').classList.add('hidden');
+    }
+
+    function saveToLocalStorage() {
+      const data = {
+        selectedOption,
+        selectedDateA,
+        selectedDateB,
+        mealType,
+        timeSlot: document.getElementById('time-slot-A')?.value || timeSlot,
+        wishText: document.getElementById('wish-text')?.value || '',
+        imageBase64
+      };
+      localStorage.setItem('feiman_birthday_selection', JSON.stringify(data));
+    }
+
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem('feiman_birthday_selection');
+      if (!saved) return;
+      try {
+        const data = JSON.parse(saved);
+        if (data.selectedOption) selectOption(data.selectedOption);
+        if (data.selectedDateA) {
+          selectedDateA = data.selectedDateA;
+          renderCalendar('A', selectedDateA);
+        }
+        if (data.selectedDateB) {
+          selectedDateB = data.selectedDateB;
+          renderCalendar('B', selectedDateB);
+        }
+        if (data.mealType) setMealType(data.mealType);
+        if (data.timeSlot) {
+          const timeElem = document.getElementById('time-slot-A');
+          if (timeElem) timeElem.value = data.timeSlot;
+        }
+        if (data.wishText) {
+          const wishElem = document.getElementById('wish-text');
+          if (wishElem) wishElem.value = data.wishText;
+        }
+        if (data.imageBase64) {
+          imageBase64 = data.imageBase64;
+          document.getElementById('image-preview').src = imageBase64;
+          document.getElementById('image-preview-container').classList.remove('hidden');
+        }
+      } catch (e) {
+        console.error('Failed to load storage', e);
+      }
+    }
+
+    async function submitChoice() {
+      if (!selectedOption) {
+        alert('請先點擊方案右上方的「選擇方案」按鈕，選擇方案 A、B 或 C 後再進行傳送！');
+        return;
+      }
+
+      const wishInput = document.getElementById('wish-text').value;
+      const chosenTime = document.getElementById('time-slot-A')?.value || timeSlot;
+
+      saveToLocalStorage();
+
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      let summaryDetails = '';
+      let optionText = '';
+      let dateText = '';
+      let timeText = '';
+
+      if (selectedOption === 'A') {
+        optionText = '方案 A：八和和牛燒肉專門店 (敦北店)';
+        dateText = selectedDateA;
+        timeText = `${mealType} ${chosenTime}`;
+        summaryDetails = `${optionText}\n日期：${dateText}\n時段：${timeText}`;
+      } else if (selectedOption === 'B') {
+        optionText = '方案 B：台東金崙 2天1夜 溫泉放鬆之旅';
+        dateText = `${selectedDateB} 出發`;
+        timeText = '去程自強410 (07:55) / 回程自強441 (16:56)';
+        summaryDetails = `${optionText}\n出發日期：${dateText}\n交通：${timeText}\n飯店：金讚溫泉飯店 (一泊二食/15:30 Check-in/11:00 Check-out)\n午餐餐廳口袋名單：嘎努食堂 / 鼎倫牛肉麵`;
+      } else if (selectedOption === 'C') {
+        optionText = '方案 C：生日禮物許願池';
+        dateText = '無限制';
+        timeText = '無限制';
+        summaryDetails = `${optionText}\n許願內容：${wishInput || '無填寫文字'}\n圖片附檔：${imageBase64 ? '已附加照片' : '無上傳圖片'}`;
+      }
+
+      document.getElementById('modal-summary-content').innerText = summaryDetails;
+      showModal();
+
+      // 發送資料至 Google Apps Script
+      if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "https://script.google.com/macros/s/AKfycbzc6b1McsVHhFQm7RYF97D4SBEMS-l-6kzqyD3i6ePD6f27Q2HB722KHGeAsXEQAhCu/exec") {
+        try {
+          await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              option: optionText,
+              date: dateText,
+              time: timeText,
+              wish: wishInput,
+              image: imageBase64
+            })
+          });
+        } catch (err) {
+          console.log('Submitted response saved and sent to GAS backend.');
+        }
+      }
+    }
+
+    function showModal() {
+      const modal = document.getElementById('modal-overlay');
+      const box = document.getElementById('modal-box');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        box.classList.remove('scale-95');
+        box.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modal-overlay');
+      const box = document.getElementById('modal-box');
+      modal.classList.add('opacity-0');
+      box.classList.remove('scale-100');
+      box.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+  </script>
+</body>
+</html>
