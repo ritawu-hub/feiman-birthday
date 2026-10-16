@@ -378,7 +378,7 @@
   </div>
 
   <!-- JavaScript Logic -->
-  <script>
+ <script>
     lucide.createIcons();
 
     // ⚠️ 請在此處貼上你在 Google Apps Script 部署獲得的網頁應用程式 URL ⚠️
@@ -580,7 +580,7 @@
         return;
       }
 
-      const wishInput = document.getElementById('wish-text').value;
+      const wishInput = document.getElementById('wish-text')?.value || '';
       const chosenTime = document.getElementById('time-slot-A')?.value || timeSlot;
 
       saveToLocalStorage();
@@ -635,6 +635,7 @@
           console.log('Submitted response saved and sent to GAS backend.', err);
         }
       }
+    } // 👈 這裡補上了之前缺少的關閉 submitChoice 的括號！
 
     function showModal() {
       const modal = document.getElementById('modal-overlay');
