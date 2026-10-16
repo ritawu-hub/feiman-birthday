@@ -336,24 +336,22 @@
 
     </div>
 
-    <!-- Final Submission Bar -->
-    <div class="mt-12 bg-white/95 backdrop-blur-md p-6 rounded-3xl border border-gray-100 shadow-xl sticky bottom-6 z-30">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-        <div>
-          <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider">目前的選擇</div>
-          <div id="summary-text" class="text-base font-bold text-deepCharcoal font-serif-custom">
-            請選擇一個妳喜歡的方案 (A / B / C)
-          </div>
-        </div>
-        
-        <button onclick="submitChoice()" id="submit-btn" class="w-full md:w-auto px-8 py-3.5 bg-gradient-to-r from-dustyRose to-softRose text-white font-bold rounded-2xl shadow-lg hover:opacity-95 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
-          <i data-lucide="send" class="w-5 h-5"></i>
-          <span>確認並傳送選擇</span>
-        </button>
+<!-- Final Submission Bar -->
+<div class="mt-12 bg-white/95 backdrop-blur-md p-6 rounded-3xl border border-gray-100 shadow-xl relative z-10">
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+    <div>
+      <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider">目前的選擇</div>
+      <div id="summary-text" class="text-base font-bold text-deepCharcoal font-serif-custom">
+        請選擇一個妳喜歡的方案 (A / B / C)
       </div>
     </div>
-
+    
+    <button onclick="submitChoice()" id="submit-btn" class="w-full md:w-auto px-8 py-3.5 bg-gradient-to-r from-dustyRose to-softRose text-white font-bold rounded-2xl shadow-lg hover:opacity-95 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+      <i data-lucide="send" class="w-5 h-5"></i>
+      <span>確認並傳送選擇</span>
+    </button>
   </div>
+</div>
 
   <!-- Custom Confirmation Modal -->
   <div id="modal-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
