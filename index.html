@@ -617,7 +617,7 @@
       showModal();
 
       // 發送資料至 Google Apps Script
-      if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "https://script.google.com/macros/s/AKfycbzc6b1McsVHhFQm7RYF97D4SBEMS-l-6kzqyD3i6ePD6f27Q2HB722KHGeAsXEQAhCu/exec") {
+      if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_APPS_SCRIPT_URL") {
         try {
           await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
@@ -632,10 +632,9 @@
             })
           });
         } catch (err) {
-          console.log('Submitted response saved and sent to GAS backend.');
+          console.log('Submitted response saved and sent to GAS backend.', err);
         }
       }
-    }
 
     function showModal() {
       const modal = document.getElementById('modal-overlay');
