@@ -392,6 +392,8 @@
     };
 
     window.onload = function() {
+      // 清除舊的本地測試暫存，確保每次開啟都是完全乾淨的狀態
+      localStorage.removeItem('feiman_birthday_selection');
       renderCalendar('A', selectedDateA);
       renderCalendar('B', selectedDateB);
       updateTimeDropdown();
